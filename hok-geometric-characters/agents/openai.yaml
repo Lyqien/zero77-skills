@@ -1,0 +1,4 @@
+interface:
+  display_name: "王者英雄几何平涂"
+  short_description: "按固定参考生成王者英雄的几何平涂人物，保留原版风格并统一人物关系和PNG规格"
+  default_prompt: "使用 $hok-geometric-characters，根据我提供的官方人物图生成同一套几何平涂画风的人物。"
