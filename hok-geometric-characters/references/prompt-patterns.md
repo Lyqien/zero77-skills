@@ -16,11 +16,11 @@ Pose: [readable short-limb adaptation of the source action]. Preserve the action
 Big head, small short torso, short limbs and minimal neck. Angular silhouette, broad matte flat color shapes with deliberate structural polygon planes. Keep the detail level of the approved samples, not fine triangular noise and not overly smooth round anime art. Simplify repeated feathers, locks and ornaments into groups. Face simpler than costume.
 Eyes are matte flat graphic shapes matching input 6: simple upper eye edge and iris built from two or three broad SOLID color shapes with hard boundaries. Preserve the hero's eye hue and intended expression. No white catchlight dots, sparkle, glossy corneal reflection, wet shine, spherical eyeball modeling, continuous iris gradients, detailed iris texture or concentric pupil rings. Avoid separately modeled realistic black pupils. Do not substitute smaller glossy anime eyes for flat eyes. Closed and winking eyes remain simple solid graphic strokes; do not force them open.
 Palette: [hero-specific colors], gentle moderate saturation, neither neon nor washed gray. Preserve character-specific warm/cool differences.
-SUBJECT-FOCUSED transparent asset: preserve the character and necessary physical props. Avoid large, visibly blurry clouds of colored haze or a broad luminous backdrop surrounding the figure. Do not inherit the broad fog from style references. Normal antialiased edges and subtle close-to-contour translucent transitions are acceptable; do not pursue mathematically zero semitransparency. No scene background, base, text or watermark. Preserve solid white areas inside the subject.
+Soft localized aura comparable to approved samples is acceptable, without strengthening it into dominant atmospheric effects. No scene background, base, text or watermark.
 Entire figure and all major props in frame with comfortable margins. Target landscape 1536x1024, 3:2 PNG with transparent surroundings; preserve native alpha.
 ```
 
-使用内置图像生成工具的透明背景选项，以正常观看尺度检查主体是否清楚、是否存在明显大面积模糊光雾，不能只检查RGBA或微弱alpha边缘。工具实际尺寸仍须检查，提示词中的数字不保证精确执行。样图中光雾不是参考目标，用户排除的是大面积明显模糊光雾；正常抗锯齿和不显眼的边缘过渡可接受。首次生成主体满意且没有这一明显问题时直接保存PNG，不再为绝对去光雾调用编辑或重生成，也不把其标为未达标候选。
+使用内置图像生成工具的透明背景选项。不要把白底中间图和抠图添加为默认流程。工具实际尺寸仍须检查，提示词中的数字不保证精确执行。
 
 默认只保存最终 PNG。工具完成后在聊天中简述必要信息，不自动向输出目录写说明 Markdown、TXT、JSON、提示词或生成记录。只有用户明确要求时才另存报告。此规则约束交付行为，不需要画到图片上。
 
@@ -30,16 +30,6 @@ Entire figure and all major props in frame with comfortable margins. Target land
 - 云中君：ONLY left silver-haired male and his wings, exclude pink-haired woman, antlers, animal ears and staff.
 - 瑶：ONLY right pink-haired female with antlers, animal ears, cape and staff, exclude male and bird wings.
 - 元歌：TWO distinct figures in ONE hero-unit image; short-gray-haired blue/teal human controller, long-white-haired purple/white articulated puppet, a few control strings visibly connecting them. Never fuse bodies or swap roles.
-
-## 局部编辑范围
-
-首次生成才使用完整参考组。局部修改以用户选定原成图作为编辑底图，不重新从官方原画生成；尽量只附底图与必要的眼睛专项参考。不能把下列文字当成像素锁定能力；如工具提供实际遮罩则使用遮罩，不提供则检查漂移并拒收非目标变化。
-
-```text
-LOCAL EDIT, NOT full-image regeneration. The supplied approved image is the immutable source outside the requested edit region. Allowed region: [iris interior/catchlights OR background pixels outside the subject]. Preserve the exact canvas, framing, alpha outside the allowed edit, silhouette, pose, hair locks, facial features outside the edit, clothes, weapons, accessories, polygon boundaries, colors and shading. No restyling, relighting, resizing, recropping or automatic beautification. Do not add or remove haze when editing eyes. If editing background alpha only, do not alter eyes or any solid subject pixels.
-```
-
-仅存在肉眼明显的大面积模糊光雾或用户点名处理时，才使用去光雾编辑；不要对已干净的首次结果自动执行。去光雾：Background-alpha correction ONLY. Remove surrounding haze and glow in empty space. Preserve every solid subject shape, internal white region, palette, facet and expression. Do not redraw, sharpen, relight or simplify the subject. No new halos or shadow. Inspect against the original; reject if subject changes.
 
 ## 单项修改
 
@@ -51,4 +41,4 @@ LOCAL EDIT, NOT full-image regeneration. The supplied approved image is the immu
 
 动作别扭：identify the exact wrist, knee, foot direction or prop contact that needs correction, retain the existing dynamic gesture and short anatomy. Do not redesign the entire pose unless the user asks.
 
-已认可图只需规格检查时：不调用图像生成重画，不重新着色或改变像素；只检查尺寸、比例、模式、文件名与版本。去光雾须是用户明确要求的编辑任务，不能借规格检查顺便改图。
+已认可图只需规格检查时：不调用图像生成重画，不重新着色、不抠图、不移除光雾。检查尺寸、比例、模式、文件名与版本。
