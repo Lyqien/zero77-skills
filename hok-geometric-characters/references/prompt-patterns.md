@@ -9,12 +9,12 @@ Use case: stylized-concept.
 Input 1 official hero image: identity, costume, props, original hue families and gesture ONLY.
 Inputs 2 and 3 First-Refer sheets: primary angular geometric flat illustration language.
 Inputs 4 and 5 approved Zhuang Zhou I and Xiao Qiao L: accepted compact chibi anatomy, plane density and soft color treatment. Borrow style ONLY, not character design or props.
-Input 6 Erin: authoritative reference for FLAT GRAPHIC EYES ONLY. For eye rendering it overrides glossy eyes in all other references. Do not copy Erin's purple eye color, hair or costume to another hero.
+Input 6 Erin and input 5 Xiao Qiao L: eye-plane references, supported by the bundled Daji example. Match their few BROAD flat color patches. NO added distinct pupil or anatomical iris/pupil segmentation. This does NOT mean one uniform eye-color fill. Preserve hero-specific eye hue.
 Output unit: [one hero / matched male-female variants together / human controller and puppet together].
 Subject and identifying features: [hero-specific details].
 Pose: [readable short-limb adaptation of the source action]. Preserve the action's character; do not automatically replace dynamic poses with neutral standing.
 Big head, small short torso, short limbs and minimal neck. Angular silhouette, broad matte flat color shapes with deliberate structural polygon planes. Keep the detail level of the approved samples, not fine triangular noise and not overly smooth round anime art. Simplify repeated feathers, locks and ornaments into groups. Face simpler than costume.
-Eyes are matte flat graphic shapes matching input 6: simple upper eye edge and iris built from two or three broad SOLID color shapes with hard boundaries. Preserve the hero's eye hue and intended expression. No white catchlight dots, sparkle, glossy corneal reflection, wet shine, spherical eyeball modeling, continuous iris gradients, detailed iris texture or concentric pupil rings. Avoid separately modeled realistic black pupils. Do not substitute smaller glossy anime eyes for flat eyes. Closed and winking eyes remain simple solid graphic strokes; do not force them open.
+Eyes use a few BROAD flat geometric color planes like the Xiao Qiao L, Erin and Daji examples: darker upper areas and lighter lower or diagonal patches with clear boundaries. Do not reduce eyes to a single uniform fill. Do not add a separate pupil, central dot, slit or concentric ring, and do not arrange patches radially around an implied pupil. A broad dark plane is a graphic shape, not a reason to invent pupil anatomy. Preserve eye whites, simple upper eyelid, hero-specific color and expression. No tiny iris mosaic, optical texture, continuous gradient, white catchlights, wet shine or glass reflections. Closed or winking eyes remain as intended.
 Palette: [hero-specific colors], gentle moderate saturation, neither neon nor washed gray. Preserve character-specific warm/cool differences.
 Soft localized aura comparable to approved samples is acceptable, without strengthening it into dominant atmospheric effects. No scene background, base, text or watermark.
 Entire figure and all major props in frame with comfortable margins. Target landscape 1536x1024, 3:2 PNG with transparent surroundings; preserve native alpha.
@@ -33,7 +33,7 @@ Entire figure and all major props in frame with comfortable margins. Target land
 
 ## 单项修改
 
-眼睛跑偏：Eye-rendering correction ONLY. Preserve the existing eye outline, gaze, eye hue, wink or closed-eye expression, face, anatomy, pose, costume, palette, background effects and composition. Replace glossy iris shading with two or three broad solid flat color shapes matching the Erin reference. Remove white catchlight dots, corneal reflections, sparkle, continuous iris gradients, ring textures and realistic separate black pupils. Keep eyes expressive through shape and simple graphic eyelid, not shine. Do not shrink the eyes or change the character to imitate Erin's identity.
+眼睛跑偏：Eye-rendering correction ONLY. Preserve eye outline, gaze, hue, expression and every non-eye part. Match the few broad flat dark/light patches in the approved Xiao Qiao L, Erin and Daji references. Keep broad upper, lower or diagonal planes rather than one uniform fill. Do not add an independent pupil or radial/concentric anatomical segmentation. No tiny central inset, optical texture, continuous gradient or bright reflection dots. Do not shrink eyes, alter the face or restyle the whole image.
 
 颜色偏鲜：slightly lower saturation in [specific accents], preserve hue, brightness, value separation and all geometry. Keep colors recognizable, never washed gray. Percentages are visual guidance, not a deterministic measurement.
 
