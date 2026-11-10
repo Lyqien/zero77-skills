@@ -1,0 +1,16 @@
+---
+name: STYLE_SLUG-png
+description: 将用户上传图片中的主体转换为STYLE_LABEL画风，保留主体身份、结构和关键特征，输出经 Alpha 与视觉检查的透明背景 PNG 素材。用户调用此画风或要求按此画风转换主体图时使用。
+---
+
+# STYLE_LABEL透明素材
+
+先读取 `references/style-profile.json`。仅当状态为 `validated` 且相关主体在适用范围内时，使用已验证声明；草稿必须说明尚未完成的验证。
+
+执行 [references/convert-subject.md](references/convert-subject.md)。读取 `references/router.md` 路由到实际所需的主体、材质规则与参考图；将上传图绑定为 SUBJECT，将本 Skill 保存的原始风格图与适用锚点绑定为 STYLE。
+
+默认直接转换上传主体，不重新提取风格。保持身份、结构、数量、姿态、服装/部件和辨识特征，按画风规则调整渲染与比例。未上传主体图时请求提供图片；不要把本 Skill 的风格参考图误用为待转换主体。
+
+必须请求实际透明背景，保存 PNG，并运行 `scripts/check_png.py`，再完成黑白背景视觉检查、风格匹配和主体保持检查。只有全部通过才交付为最终素材。无法获取实际文件时报告未完成验证，不能仅凭工具预览宣称透明。
+
+本 Skill 自包含；引用均相对此目录，不依赖创建它的工厂或原会话。

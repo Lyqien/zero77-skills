@@ -1,0 +1,4 @@
+interface:
+  display_name: "Style2SubjectSkill"
+  short_description: "从美术参考图建立可复用的画风技能，将后续主体转换为透明 PNG 素材"
+  default_prompt: "使用 $style2subjectskill 提取上传参考图的画风，生成可复用的主体转换与透明 PNG 素材 Skill。"
