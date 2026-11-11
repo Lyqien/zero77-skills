@@ -8,7 +8,7 @@
 
 记录主体锁定项：类别、身份特征、辨识色、服装与道具种类、数量、朝向、姿态及部件关系。按目标风格调整比例、线条、明暗和纹理；不随意更换身份、产品型号或配件。不保证生物识别意义的身份一致，应逐项视觉检查。
 
-默认保留输入可见范围，不能声称还原被遮挡部分。需要补全到全身或完整物件时，仅在用户提出或确认后进行；如输入本来完整，则确保边缘不裁切。画布保留合理透明留边，不贴边或人为改变长宽。
+先读取 [subject-completeness.md](subject-completeness.md)，确定交付范围并检查输入截断。默认完整主体模式下自动补全缺失肢体或部件；明确头像、半身或局部请求时尊重指定范围。保留可见身份与姿态，扩展画布自然补全输入未展示部位，并将其记录为推演。生成后必须逐部位检查，发现截断自动修复；不能只扩大透明边框而保留断腿。
 
 ## 读取与生成
 
@@ -23,8 +23,13 @@ SUBJECT invariants: identity cues, category, count, pose, orientation,
 costume/parts, defining colors and relationships recorded from the upload.
 STYLE: the saved style invariants plus the relevant subject/material rules.
 Change the visual rendering according to STYLE; retain SUBJECT invariants.
-Composition: preserve the visible framing, keep the complete visible silhouette
-inside the canvas with clear transparent padding.
+OUTPUT_SCOPE: complete_subject unless an explicit user crop was requested.
+INPUT_CROP and COMPLETION_PLAN: name the actual truncated parts and how each
+will be continued in the same pose, clothing and target style. Reconstruct
+missing legs through knees and ankles to complete feet/shoes where applicable.
+Composition: extend the canvas and reframe to show the complete intended subject,
+with clear transparent padding beyond all extremities. Do not copy source cropping.
+Preserve natural occlusions and actual anatomical/mechanical differences.
 Output: actual transparent background, PNG with alpha. Preserve intentional
 holes between limbs, handles and accessories. Retain fine silhouette details.
 No backdrop, ground plane, frame, watermark, added label or painted checkerboard.
@@ -34,6 +39,10 @@ No ground shadow unless specifically requested; retain shading on the subject.
 启用工具的真实透明参数。当前内置工具使用 `transparent_background: true`；所有输入有本地路径时用 `referenced_image_paths`；若有无本地路径的会话图片，用覆盖全部目标的最小 `num_last_images_to_include`（最多 5），两种方式不可同时传。无法覆盖全部输入时请用户重传缺失图。实际工具接口变化时以当前 schema 为准。不同工具不共享这些参数名。
 
 没有适用图像工具或透明能力时明确说明缺项，不把文字 prompt 当图片交付，不擅自改用 API。文件应保存到用户要求位置或工作区输出目录，保留原件。
+
+## 先检查主体完整性
+
+按 `subject-completeness.md` 打开实际输出与原始输入逐项对比，保存 `<output-stem>.subject-qa.json`。默认人物素材不能在大腿或膝部平切；需有合理连接的腿与脚，或有依据的自然遮挡。完整性、身份、风格和透明度任一失败均不交付。发现缺失自动编辑补全，每次修改后重新检查全部门槛。完整性与透明修复共用每次转换最多两次修正的上限。
 
 ## 文件与视觉双重验收
 
