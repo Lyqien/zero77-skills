@@ -12,12 +12,17 @@
 
 ## 读取与生成
 
+先读 [output-delivery.md](output-delivery.md)。默认一个初始候选、一个最终 PNG；首张验收通过即停止。工具有数量参数时设为 1，无此参数时只在 prompt 中写明单图，不擅自追加第二次生成。
+
 读取 `shared-style.md`、`negative.md`、`router.md`，再读实际涉及的主体与材质文件，避免全量加载。使用原始 STYLE 加已通过的相应类型锚点，减少生成图反复作为唯一参照造成的漂移。
 
 向图像工具明确各输入的角色，提交类似如下的分层要求，并填入实际风格规则：
 
 ```text
 Task: style-transfer of the SUBJECT, delivered as one reusable cutout asset.
+OUTPUT_COUNT: exactly one final transparent PNG asset for this task.
+Keep the selected subject or subject group together on one canvas.
+No alternate version, duplicate, comparison panel, contact sheet or extra preview.
 Inputs: enumerate each actual input image and label SUBJECT or STYLE.
 SUBJECT invariants: identity cues, category, count, pose, orientation,
 costume/parts, defining colors and relationships recorded from the upload.
@@ -54,8 +59,8 @@ python scripts/check_png.py path/to/result.png --report path/to/result.alpha.jso
 
 脚本以 PNG 文件签名、实际解码格式、原始 Alpha 能力、透明/可见像素及透明边框为依据；不修改图像。`RGBA` 且全部 Alpha=255 仍失败，全透明空文件同样失败。索引色 PNG 的 tRNS 透明信息也可正常验收。
 
-脚本通过只说明基本透明结构合格。还必须查看原图以及黑、白背景上的临时合成预览：是否仍有被画进图里的棋盘格、残余背景块、白边/黑边、杂散像素；发丝和细部是否被吞；应镂空的位置是否通透；主体内部是否意外变透明；玻璃、薄纱、辉光是否保留合理半透明。临时合成预览只用于检查，不作为透明 PNG 交付。
+脚本通过只说明基本透明结构合格。还必须查看原图以及黑、白背景上的临时合成预览：是否仍有被画进图里的棋盘格、残余背景块、白边/黑边、杂散像素；发丝和细部是否被吞；应镂空的位置是否通透；主体内部是否意外变透明；玻璃、薄纱、辉光是否保留合理半透明。临时合成预览只用于内部检查，不展示为第二张输出、不附带交付；首张已合格的原始 PNG 不额外制作缩小版或重复重导出版本。
 
 风格匹配和主体锁定项也要逐项检查。若工具生成了假透明或错误边缘，使用图像编辑工具针对问题重试，不用“删除全部白色像素”来抠图，不用格式转换把不透明 RGB 假装成合格 RGBA。实际修复必须重新验收。
 
-默认最多两次有针对性的修正。仍失败则报告问题和未完成状态，不把失败图标为最终素材。交付真实 PNG 文件与简短验证结论；链接指向文件本身，不能仅交付棋盘格预览截图。
+默认最多两次有针对性的修正。仍失败则报告问题和未完成状态，不把失败图标为最终素材。仅交付一个选定的真实 PNG 与简短验证结论；首张通过便交付首张，不额外生成备用图。必要修复后只选一个通过的版本交付，检查记录留存内部。工具已展示同一成品时不再嵌入同一图片；下载链接指向该同一文件。
