@@ -2,7 +2,7 @@
 name: style2subjectskill
 description: 从用户上传的美术参考图蒸馏并保存画风，生成独立可复用的主体转风格 Skill；生成的 Skill 将后续上传图中的主体转为目标画风，默认补全输入中截断的主体部位，并默认仅交付一张经主体完整性与 Alpha 检查的透明背景 PNG。用于建立或更新此类风格素材技能。
 metadata:
-  version: "0.2.1"
+  version: "0.2.2"
   upstream: "waterblower/Omni-Art-Skills style-distill 1.4.5"
 ---
 
@@ -23,7 +23,7 @@ metadata:
 1. 阅读 [references/distillation.md](references/distillation.md)，执行风格分析和生成验证。保存原图；路径不可用时不得伪造已保存文件。
 2. 将证据、适用范围、风格不变量、条件性材质规则和不应迁移的内容分别保存。单张图未展示的材质与人物比例标为推断，不宣称已从图中提取。
 3. 默认保留上游的两轮四类测试和十六张独立材质锚点。端到端测试至少使用一张下肢被画框截断的人物图，在未要求补腿的普通“转风格透明素材”请求下，验证自动检查、补全小腿与脚、主体保持和真实透明度。明确头像请求则验证仍按头像范围处理。维护本技能文件时不自动生成图片，未执行的新行为测试如实记为 not_run。
-4. 读取 [references/package-contract.md](references/package-contract.md)，按其中结构创建全新输出目录。复制 [assets/generated-SKILL.md](assets/generated-SKILL.md) 并将其中 `STYLE_SLUG`、`STYLE_LABEL` 替换为实际值；填入实际风格文件、参考图和验证记录。把 [references/convert-subject.md](references/convert-subject.md) 复制为子 Skill 的 `references/convert-subject.md`，把 `scripts/check_png.py` 复制到子 Skill 同名位置。同时复制 `references/subject-completeness.md`，使子 Skill 自包含地执行主体缺失检查、自动补全及生成后修复。同时复制 `references/output-delivery.md`，在子 Skill 入口和转换流程中加载默认单图与去重交付规则。
+4. 读取 [references/package-contract.md](references/package-contract.md)，按其中结构创建全新输出目录。复制 [assets/generated-SKILL.md](assets/generated-SKILL.md) 并将其中 `STYLE_SLUG`、`STYLE_LABEL` 替换为实际值；填入实际风格文件、参考图和验证记录。把 [references/convert-subject.md](references/convert-subject.md) 复制为子 Skill 的 `references/convert-subject.md`，把 `scripts/check_png.py` 复制到子 Skill 同名位置。同时复制 `references/subject-completeness.md`，使子 Skill 自包含地执行主体缺失检查、首次生成自动补全及生成后检查。同时复制 `references/output-delivery.md`，在子 Skill 入口和转换流程中加载默认单图与去重交付规则。
 5. 子 Skill 必须自包含：不能依赖工厂的安装路径、当前会话、临时 URL 或其他未安装 Skill。可迁移的包内引用用相对路径；工具调用使用实际可读取的路径；对话中的链接遵守宿主的路径要求。
 6. 检查新 Skill 的 frontmatter、链接、资源可读性和脚本，打包交付。仅在实际生成验证完成时标记 `validated`；缺图、工具失败或额度不足时保留 `draft`，明确未完成项。
 
@@ -33,7 +33,7 @@ metadata:
 
 ## 默认单图交付
 
-读取 [references/output-delivery.md](references/output-delivery.md)。生成的画风 Skill 执行普通转换时只生成一个初始候选；首张验收通过即结束，最终只交付该 PNG 一次。必要修复后也只交付一个选定成品；内部检查预览不作为第二张输出。同图多人组合仍保留在一张图里。此规则不减少工厂阶段的蒸馏实验和材质锚点数量。维护时只检查指令与文件，不自动生成图片；实际界面单图行为未测时记 not_run。
+读取 [references/output-delivery.md](references/output-delivery.md)。生成的画风 Skill 执行普通转换时，生成与编辑工具调用总预算为一次（含首次生成）；首张验收通过即交付，失败则说明问题并停止，用户明确要求修复后才能再次生成；内部检查预览不作为第二张输出。同图多人组合仍保留在一张图里。此规则不减少工厂阶段的蒸馏实验和材质锚点数量。维护时只检查指令与文件，不自动生成图片；实际界面单图行为未测时记 not_run。
 
 ## 执行约束
 
@@ -41,7 +41,7 @@ metadata:
 
 生成结果必须保存到输出目录。工具仅返回预览且无法取得文件时，不能宣称完成 Alpha 验收。不要擅自切换到收费 API 或添加外部抠图服务。
 
-每轮只修正最显著的偏差。默认最多四轮风格迭代、每次素材转换最多两次修正；到限仍失败则保留草稿并报告具体问题，用户可明确要求继续。上游两轮是最低验证量，不是两轮后自动通过。
+每轮只修正最显著的偏差。工厂默认最多四轮风格迭代；子 Skill 普通转换只调用一次图像工具，不自动追加修复。首张失败保留候选、报告问题，等待用户明确要求修复或重做。上游两轮是最低验证量，不是两轮后自动通过。
 
 不覆盖原 Skill、用户输入或已有输出。默认在用户指定目录或当前工作区的 `outputs/` 中创建新目录；重名用递增后缀。只有用户要求安装时才写入技能安装目录。
 

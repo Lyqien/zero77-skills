@@ -38,8 +38,8 @@
 - `observed_traits`、`inferred_traits`：证据支持与推演内容分开。
 - `supported_subjects`、`limitations`：适用范围，不能因生成了锚点就宣布所有主体都经过源图实证验证。
 - `validation_report`：指向 `validation/report.json`。
-- `output_contract`：PNG、实际 Alpha、默认移除背景与地面投影、保留主体内明暗与可辨识特征、默认 complete_subject、自动补全输入截断处、尊重用户明确的局部范围、默认 requested_output_count=1 和 delivered_image_count=1、首张合格即停止、内部检查预览不交付、不重复嵌入已展示成品。
+- `output_contract`：PNG、实际 Alpha、默认移除背景与地面投影、保留主体内明暗与可辨识特征、默认 complete_subject、自动补全输入截断处、尊重用户明确的局部范围、默认 requested_output_count=1 和 delivered_image_count=1、生成/编辑工具调用总预算为 1、首张不合格须报告并停止待用户要求修复、首张合格即停止、内部检查预览不交付、不重复嵌入已展示成品。
 
-`validation/report.json` 记录每轮 prompt、实际图片路径、各风格维度的证据和结果、真实材质锚点检查、端到端测试结果、输入截断位置、补全计划、推演部位、实际主体完整性检查、修复次数和 Alpha 报告。`subject_completeness_pass` 必须基于生成后逐部位读图检查。裁腿人物默认完整输出与明确头像范围这两种行为均须在新 Skill 的验证记录中交代；未执行不能沿用旧通过结论。转换 QA 还需记录初始候选是否通过、实际修复原因、所选最终文件和交付图数；不得把模型分析用预览与实际成品混算，也不能把截图中的人数当成输出图片数。未执行项用 `not_run`，无证据项用 `unknown`。`validated` 要求默认蒸馏测试与端到端测试均完成并通过；不得用空记录、占位路径或人工预填分数替代验证。
+`validation/report.json` 记录每轮 prompt、实际图片路径、各风格维度的证据和结果、真实材质锚点检查、端到端测试结果、输入截断位置、补全计划、推演部位、实际主体完整性检查、修复次数和 Alpha 报告。`subject_completeness_pass` 必须基于生成后逐部位读图检查。裁腿人物默认完整输出与明确头像范围这两种行为均须在新 Skill 的验证记录中交代；未执行不能沿用旧通过结论。转换 QA 还需记录初始候选是否通过、实际修复原因、所选最终文件、实际 generation_calls_used（含修复调用）和交付图数；不得把模型分析用预览与实际成品混算，也不能把截图中的人数当成输出图片数。未执行项用 `not_run`，无证据项用 `unknown`。`validated` 要求默认蒸馏测试与端到端测试均完成并通过；不得用空记录、占位路径或人工预填分数替代验证。
 
 草稿只保存真实存在的文件与已完成记录，不创建假 PNG 或伪造成功报告。交付前逐一解析包内链接、打开图像，检查没有遗漏占位符或绝对机器路径；对外回复的文件链接按宿主要求使用实际路径。

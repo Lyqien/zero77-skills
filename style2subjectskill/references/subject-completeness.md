@@ -38,7 +38,7 @@ No stumps, floating shoes, extra limbs, duplicate feet, dislocated joints or
 invented accessories. Inferred regions must match the same style and lighting.
 ```
 
-## 生成后检查与自动修复
+## 生成后检查与按请求修复
 
 打开实际生成文件，并与输入和补全计划对比。不能只看工具成功状态或生成 prompt。完整模式逐项检查：
 
@@ -48,9 +48,9 @@ invented accessories. Inferred regions must match the same style and lighting.
 4. 头饰、发梢、手指、衣摆、脚底等可见轮廓完整，并位于透明留边内。
 5. 新补部位与原有主体在比例、切面/线条、材质、明暗和细节频率上统一。
 
-发现缺失、截断或错误补全时自动调用图像编辑工具扩图或修复；将原始 SUBJECT、当前候选及 STYLE 的角色标清，保留已正确的身份与部位，针对失败位置修复。默认每次转换最多两次修正（完整性、风格与透明修复共用此上限）。每次修复后重新做完整性、风格、主体保持和 Alpha/黑白底检查。
+第一次 prompt 必须自动规划并完成输入的缺失部位。生成后若仍缺失、截断或补全错误，记录失败并说明，不自动调用第二次工具。普通单图请求的生成/编辑总预算为 1；仅在用户明确要求修复后才继续。授权修复时将原始 SUBJECT、当前候选及 STYLE 标清，保留正确身份与部位，修复后重新检查全部门槛。
 
-修正到限仍失败时标为未完成，报告具体缺失部位，不把截断素材当作最终成品。不能用 Alpha 有透明边框来抵消主体不完整。
+首张或用户授权修复后仍失败时标为未完成，报告具体缺失部位，不把截断素材当作最终成品。不能用 Alpha 有透明边框来抵消主体不完整。
 
 ## 留存真实检查结果
 

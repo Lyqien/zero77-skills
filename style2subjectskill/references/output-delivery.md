@@ -1,33 +1,37 @@
-# 单图生成与交付
+# 单次生成与单图交付
 
-本规则适用于生成的画风 Skill 执行主体转换。创建画风时的两轮四类实验与材质锚点仍按蒸馏流程执行，不能误减为一张。
+适用于画风 Skill 的普通主体转换；工厂蒸馏阶段的多轮实验与材质库不受此数量规则影响。
 
-## 默认数量
+## 默认调用预算
 
-用户未要求多张、多个方案或多个规格时，每个转换任务默认只生成一个候选，最终只交付一张通过验收的透明 PNG。工具存在 count、n 或 variants 等参数时按实际接口设置为 1；没有数量参数时，在 prompt 中明确要求一张独立成品，不捏造工具参数。
+普通转换任务默认 `generation_call_budget = 1`，含首次生成在内，总共只调用一次生成/编辑工具。每次工具请求只要一张；工具有 count/n/variants 时按实际 schema 设为 1，没有则在 prompt 中写明一张，不能捏造参数。
 
-图像数量与主体数量不同：用户选定的多人、人物与傀儡/坐骑等组合保持在同一张 PNG 内，不为了“只输出一张”删除组合中的角色或拆成多个文件。用户明确批量处理多张输入时，每个输入任务一张成品；明确要求多方案时才增加相应数量。
+这一限制同时覆盖透明修复、补腿扩图、清边、调整留白、尺寸变体、备用方案和超时后的盲目重试。把同一任务拆到另一个函数或称为“后处理”也不能增加调用。单图默认优先于旧的“最多两次自动修复”约定；调用次数和最终文件数分别记录，不能写 delivered_image_count=1 就把两次实际生成当成单次。
 
-生成 prompt 加入：
+图像数量不等于人物数量。保持选定的多人、人物与傀儡/坐骑组合在同一张 PNG 内。明确批量任务按每个输入分别计算；用户明确要求多方案或继续修复时，才按该请求增加相应调用预算。
+
+## 在第一次生成中完成要求
+
+生成前充分查看输入、风格与相关锚点，把实际截断位置、补全计划、姿态、服装、完整脚/鞋、透明背景和留白全部写入第一次 prompt。补全输入裁切仍是自动行为；生成后的再生成修复不再默认自动执行。
 
 ```text
-OUTPUT_COUNT: exactly one final transparent PNG asset for this task.
-Keep the selected subject or subject group together on one canvas.
-No alternate version, duplicate, comparison panel, contact sheet or extra preview.
+OUTPUT_COUNT: exactly one transparent PNG image for this task.
+Complete the identified missing parts and preserve identity in this first result.
+Keep the selected subject/group together on one canvas, with full silhouette,
+clear transparent padding, alpha-zero background and no outside haze or glow.
+No alternate image, duplicate, comparison panel, contact sheet or extra preview.
 ```
 
-## 首张通过即停止
+## 检查后停止
 
-先检查首张实际文件的主体完整性、身份、画风、Alpha 和黑白底边缘。首张通过后直接选为最终文件并结束生成；不习惯性生成第二张，不为比较方案、做缩小版、统一画布、备用图或下载预览追加生成。
+生成后仍须执行主体完整性、身份、画风、Alpha 和黑白底检查。首张通过即交付该文件并结束。首张有缺失、背景残留或边缘失败时，保留这张候选并说明具体问题、将对应 QA 记为未通过；停止，不再次调用图像工具，不擅自降低检查门槛或把失败图称为合格成品。只有用户明确要求“修复 / 重做 / 继续生成”后，才在该后续授权范围内生成。
 
-黑白底合成、Alpha 报告和主体 QA 记录仅供内部检查，放在工作目录或检查记录中；不把它们当作用户请求的第二张图。已合格的原始 PNG 直接交付，不再同时提供一份缩放/重导出的重复图片。用户明确指定了尺寸等要求时按要求处理，但仍只交付一个最终成品。
+工具失败或返回状态不明时也不能盲目追加生成；先确认既有任务状态，无法确认则如实报告。一次调用本身可能失败，不能保证每次首张都通过。
 
-只有实际验收发现具体失败时才进入已有的修复流程，最多两次修正；通过后只选择一个最终版本，不并列展示原图、修复版与“最终最终版”。不要为遵守单图交付而跳过补全或透明检查，也不能把失败首张直接交付为成品。
+## 展示去重
 
-## 单次展示
+同一结果最多展示一次。宿主已展示时不再用 Markdown 图片重复嵌入；下载链接指向同一 PNG，不复制一份或再生成缩小版。检查用黑白底预览、缩略图、Alpha/主体 QA 记录只用于内部检查，不作为第二张成品或图片入口。
 
-最终回复只提供所选 PNG 的一个交付入口：工具已展示同一文件时不再用 Markdown 图片重复嵌入；工具未展示时可展示一次。下载链接如需提供，必须指向同一个最终文件，不新建一份用于下载的图片。不额外附上黑白底、棋盘格、缩略图、另一尺寸或第二候选的图片入口。
+单次请求中已经发生的工具展示无法靠 Skill 撤回。可以控制的是不再追加图像调用、不重复嵌入已有成品，不声称能隐藏宿主不可控的历史展示。
 
-工具在生成或必要修正时可能由宿主自动展示过程图片，这不等于新增成品；不能声称可以隐藏宿主不可控的展示。助手控制范围内不追加重复图片或版本。
-
-在 QA 记录中保存 `requested_output_count`、`initial_candidate_pass`、`repair_reason`、`selected_final_image`、`delivered_image_count`（默认 1）。只有实际执行的检查可记录通过；维护技能而未生成图片时标为 `not_run`。
+QA 记录实际 `generation_call_budget`、`generation_calls_used`、`requested_output_count`、`initial_candidate_pass`、`selected_final_image`（未通过时为 null）、`candidate_image`、`delivered_image_count`、`repair_requires_user_request` 和 `overall_pass`。单图模式未通过时合格交付数量为 0，不能因界面显示过候选而伪记成功。维护技能未生成图片时记 not_run。
